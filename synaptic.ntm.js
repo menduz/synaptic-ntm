@@ -214,7 +214,7 @@ NTM.Head.prototype.doErase = function(){
 	for(var n = 0; n < this.ntm.memory.length; n++){
 		var M = this.ntm.memory[n];
 		for(var i = 0; i < M.length; i++){
-			M[i] *= 1 - this.w[i] * this.w[n];
+			M[i] *= 1 - this.e[i] * this.w[n];
 		}
 	}	
 }
