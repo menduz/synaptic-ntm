@@ -1,0 +1,6 @@
+How do we calculate erase and add vectors?
+How should be the controller trained?
+The training should be made over the controller or over the whole system?
+What do we do with read vector & wt once the head emits this?
+How should be multiple heads implemented?
+What is the output of the network?
