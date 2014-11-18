@@ -20,11 +20,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
 
+//////////////////////////////////////////////////////////////////////////////////
+
+Based on the paper Neural Turing Machines (http://arxiv.org/pdf/1410.5401v1.pdf)
+of Alex Graves gravesa@google.com, Greg Wayne gregwayne@google.com and Ivo Danihelka danihelka@google.com
+
+Special thanks to Juan Cazala juancazala@gmail.com
+
 */
 
-
-
-//TODO:Fix memory allocations and releases. We are killing the garbage collector.
+//TODO: Fix memory allocations and releases. We are killing the garbage collector.
 
 if(!'Synaptic' in this) throw "This module requires Synaptic";
 
@@ -136,10 +141,7 @@ Utils.arrayAdd = function(arrayA,arrayB){
   return ret;
 }
 
-
-// ROCK!: http://arxiv.org/pdf/1410.5401v1.pdf
-
-function getSubArray(array, from, to){
+Utils.getSubArray = function(array, from, to){
 	if('subarray' in array){
 		return array.subarray(from, to);
 	}
@@ -189,7 +191,7 @@ NTM.prototype.activate = function(inputs){
 	var g = controllerOutputs[1]; // interpolation gate
 	var Y = controllerOutputs[2]; // depending on γ, the weighting is sharpened and used for memory access.
 	var s = controllerOutputs[3]; // shifting vector
-	var k = getSubArray(controllerOutputs, 4, 4 + this.config.memWidth); // key vector k
+	var k = Utils.getSubArray(controllerOutputs, 4, 4 + this.config.memWidth); // key vector k
 
 	var acumulatedHeadOutputs = [];
 
@@ -218,10 +220,10 @@ NTM.CONTROLLER_OUTPUT_SIZE = 4; // [ß, g, γ, s] + w * outputs
 
 NTM.Head = function NTMHead(ntm){
 	this.ntm = ntm;
-	this.w = new Float64Array(ntm.config.memBlocks); // focus on the memBlocks. w → ∑w[i] = 1
+	this.w = new Float64Array(ntm.config.memWidth); // focus on the memBlocks. w → ∑w[i] = 1
 	this.e = new Float64Array(ntm.config.memBlocks);
 	this.a = new Float64Array(ntm.config.memBlocks);
-	this.r = new Float64Array(ntm.config.memWidth);
+	this.r = new Float64Array(ntm.config.memBlocks);
 }
 
 
