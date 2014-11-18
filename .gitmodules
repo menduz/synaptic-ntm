@@ -1,0 +1,3 @@
+[submodule "synaptic"]
+        path = synaptic
+        url = git@github.com:cazala/synaptic.git
