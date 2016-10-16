@@ -359,19 +359,20 @@ function wn_shift(wg, shiftScalar){
 	var intPart = shiftScalar | 0;
 	var decimalPart = shiftScalar - intPart;
 
-	shiftings[intPart % shiftings.length] = 1 - decimalPart;
-	shiftings[(intPart + 1) % shiftings.length] = decimalPart;
+	shiftings[(shiftings.length + intPart) % shiftings.length] = 1 - decimalPart;
+	shiftings[(shiftings.length + (intPart + 1)) % shiftings.length] = decimalPart;
 
 	for(var i = 0; i < wn.length; i++){
 		var acum = 0;
 		for(var j = 0; j < wn.length; j++){
-			acum += wg[j] * shiftings[(i - j) % shiftings.length];
+			acum += wg[j] * shiftings[(shiftings.length + (i - j)) % shiftings.length];
 		}
 		wn[i] = acum;
 	}
 
 	return wn;
 }
+
 
 ///=inline
 function w_sharpWn(wn, Y){
